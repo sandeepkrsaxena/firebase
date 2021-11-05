@@ -1,0 +1,114 @@
+<br>
+<h1>Add New User</h1>
+<br>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button>
+
+
+  <br/>
+  <br/>
+  <div class="row">
+      <div class="col-md-12">
+      <h4>User Lists</h4>
+      <br>
+      <table class="table table-hover mb-5">
+        <thead>
+          <tr>
+            <th scope="col">S.No.</th>
+            <th scope="col">Profile</th>
+            <th scope="col">Skills</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Active</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let userDate of userArrayEmt; index as i">
+            <th scope="row">{{i+1}}</th>
+            <td>{{userDate.profile}}</td>
+            <td>{{userDate.skill}}</td>
+            <td>{{userDate.company}}</td>
+            <td>
+                <a [routerLink]="['/users', userDate.userId]" class="btn btn-success">View</a> &nbsp;
+                <button type="button" class="btn btn-primary" (click)="editUser(userDate.userId, i)" >Edit</button> &nbsp;
+                <button type="button" class="btn btn-danger" (click)="removeUser(userDate.userId)">Remove</button>
+            </td>
+          </tr>
+         
+         
+        </tbody>
+      </table>
+  </div>
+</div>
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{editUserMode? 'Update User' : 'Add User'}}</h5>
+          <button type="button" (click)="resetForm()" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+            <div *ngIf="aleartBox" class="alert alert-success" role="alert">
+               <strong>Thankyou!</strong> New user has been submitted
+              </div>
+
+              <div *ngIf="userUpdateMessage" class="alert alert-success" role="alert">
+                <strong>User has been updated. Thankyou!</strong>
+               </div>
+
+            <form [formGroup]="userForm" (ngSubmit)="userOnSubmit(userForm.value)">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="profile">Profile</label>
+                    <input formControlName="profile"  type="text" name="profile" class="form-control" id="profile">
+                     <span *ngIf="profile.touched && profile.invalid" class="text-danger small">Please add your profile name.</span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="skill">Skill</label>
+                    <input formControlName="skill"   type="text" name="skill" class="form-control" id="skill">
+                    <span *ngIf="skill.touched && skill.invalid" class="text-danger small">Please add your skills.</span>
+                  </div>
+                </div>
+              </div>
+                
+               
+
+                <div class="form-group">
+                    <label for="company">Company Name</label>
+                    <input formControlName="company"  type="text" name="company" class="form-control" id="company">
+                    <span *ngIf="company.touched && company.invalid" class="text-danger small">Please add your company name.</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="company">Description</label>
+                    <textarea formControlName="description"  name="description"  class="form-control" id="description" rows="3"></textarea>
+                    <span *ngIf="description.touched && description.invalid" class="text-danger small">Please add details</span>
+                  </div>
+               
+                  <div class="modal-footer">
+                    <button  type="button" (click)="resetForm()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button [disabled]="userForm.invalid" type="submit" class="btn btn-primary">
+
+                      {{editUserMode? 'Update User' : 'Add User'}}
+                     
+                    </button>
+                  </div>
+              </form>
+          
+            <div class="clearfix"></div>
+        </div>
+      
+      </div>
+    </div>
+  </div>
